@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lark &amp; Folio — Independent Bookshop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c1712;
+      --paper: #f6efe4;
+      --cream: #fffaf2;
+      --clay: #c45c26;
+      --clay-deep: #9b3e14;
+      --sage: #3d5a45;
+      --moss: #6f8f6a;
+      --gold: #d4a017;
+      --muted: #6b5e4e;
+      --card: #fffdf8;
+      --shadow: 0 18px 40px rgba(28, 23, 18, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Outfit", sans-serif;
+      background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(196, 92, 38, 0.12), transparent 50%),
+        radial-gradient(900px 400px at 100% 0%, rgba(61, 90, 69, 0.12), transparent 45%),
+        var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.1rem 6vw;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(246, 239, 228, 0.86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(28, 23, 18, 0.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: "Fraunces", serif;
+      font-size: 1.45rem;
+      letter-spacing: -0.02em;
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, var(--clay), var(--gold));
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(196, 92, 38, 0.28);
+    }
+
+    nav { display: flex; gap: 1.2rem; font-weight: 500; color: var(--muted); }
+    nav a:hover { color: var(--clay-deep); }
+
+    .hero {
+      padding: 4.5rem 6vw 2.5rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    h1 {
+      font-family: "Fraunces", serif;
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .lede {
+      font-size: 1.12rem;
+      color: var(--muted);
+      max-width: 38rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 1.6rem;
+      flex-wrap: wrap;
+    }
+
+    .stat strong { display: block; font-size: 1.4rem; font-family: "Fraunces", serif; }
+    .stat span { color: var(--muted); font-size: 0.92rem; }
+
+    .hero-card {
+      background: var(--card);
+      border-radius: 28px;
+      padding: 1.6rem;
+      box-shadow: var(--shadow);
+      transform: rotate(2deg);
+    }
+
+    .hero-card h3 { font-family: "Fraunces", serif; margin-bottom: 0.4rem; }
+    .hero-card p { color: var(--muted); margin-bottom: 1rem; }
+    .pill {
+      display: inline-block;
+      background: #f3e2d2;
+      color: var(--clay-deep);
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+    }
+
+    .section {
+      padding: 1.5rem 6vw 4rem;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+
+    h2 {
+      font-family: "Fraunces", serif;
+      font-size: 2rem;
+    }
+
+    .hint { color: var(--muted); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .cat-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid rgba(28, 23, 18, 0.06);
+      border-radius: 24px;
+      padding: 1.3rem;
+      min-height: 190px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(28, 23, 18, 0.06);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      isolation: isolate;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+    }
+
+    .cat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .cat-card h3 { font-size: 1.15rem; margin-bottom: 0.35rem; }
+    .cat-card p { color: var(--muted); font-size: 0.92rem; }
+    .count {
+      margin-top: 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--sage);
+    }
+
+    .bubbles {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, var(--b, rgba(196, 92, 38, 0.45)));
+      animation: rise 900ms ease-out forwards;
+      opacity: 0.85;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(12px) scale(0.4); opacity: 0.9; }
+      100% { transform: translateY(-90px) scale(1.15); opacity: 0; }
+    }
+
+    @keyframes wobble {
+      0% { transform: rotate(0deg) scale(1); }
+      15% { transform: rotate(-8deg) scale(1.04); }
+      30% { transform: rotate(7deg) scale(1.06); }
+      45% { transform: rotate(-6deg) scale(1.03); }
+      60% { transform: rotate(4deg) scale(1.02); }
+      75% { transform: rotate(-2deg) scale(1.01); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    .wobble { animation: wobble 700ms cubic-bezier(.36,.07,.19,.97) both; }
+
+    .view-toggle { display: none; }
+    body.show-books .categories-view { display: none; }
+    body.show-books .books-view { display: block; }
+    .books-view { display: none; }
+
+    .back {
+      border: 0;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.65rem 1.1rem;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .books-hero {
+      background: var(--card);
+      border-radius: 28px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.15rem;
+    }
+
+    .book {
+      background: var(--card);
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(28, 23, 18, 0.06);
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      min-height: 180px;
+    }
+
+    .cover {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0.8rem 0.5rem;
+      color: #fff;
+      font-family: "Fraunces", serif;
+      font-size: 0.78rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .book-body { padding: 0.95rem 1rem 1.05rem; }
+    .book-body h3 { font-size: 1.02rem; margin-bottom: 0.2rem; }
+    .meta { color: var(--muted); font-size: 0.88rem; margin-bottom: 0.55rem; }
+    .facts {
+      display: grid;
+      gap: 0.2rem;
+      font-size: 0.82rem;
+      color: #4a4034;
+    }
+    .price {
+      margin-top: 0.55rem;
+      font-weight: 700;
+      color: var(--clay-deep);
+    }
+
+    footer {
+      padding: 2rem 6vw 2.6rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(28, 23, 18, 0.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; padding-top: 2.4rem; }
+      nav { display: none; }
+      .hero-card { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="#" id="homeLink">
+      <span class="mark">L</span>
+      Lark &amp; Folio
+    </a>
+    <nav>
+      <a href="#categories">Categories</a>
+      <a href="#about">Hours</a>
+      <a href="#contact">Visit</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero categories-view">
+      <div>
+        <p class="pill">An independent bookshop on Willow Lane</p>
+        <h1>Find the next book that quietly rearranges you.</h1>
+        <p class="lede">Browse by mood and subject. Tap a category card — it wobbles, bubbles, then opens a shelf of titles with author, publication date, and the rest of the story behind the spine.</p>
+        <div class="hero-stats">
+          <div class="stat"><strong>10</strong><span>curated rooms</span></div>
+          <div class="stat"><strong>80+</strong><span>books on the floor</span></div>
+          <div class="stat"><strong>1894</strong><span>first edition we refuse to sell</span></div>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <p class="pill">Staff pick this week</p>
+        <h3>The Atlas of Ordinary Days</h3>
+        <p>A travel memoir that treats bus stations like cathedrals. Perfect if you want history, maps, and a little self-help in one binding.</p>
+        <strong>₹499 · History &amp; Travel</strong>
+      </aside>
+    </section>
+
+    <section class="section categories-view" id="categories">
+      <div class="section-head">
+        <div>
+          <h2>Choose a shelf</h2>
+          <p class="hint">Each card is a room. Click one to wobble into it.</p>
+        </div>
+      </div>
+      <div class="grid" id="categoryGrid"></div>
+    </section>
+
+    <section class="section books-view" id="books">
+      <div class="books-hero">
+        <div>
+          <p class="pill" id="catPill">Category</p>
+          <h2 id="catTitle">Books</h2>
+          <p class="hint" id="catBlurb"></p>
+        </div>
+        <button class="back" id="backBtn" type="button">← All categories</button>
+      </div>
+      <div class="book-grid" id="bookGrid"></div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div id="about">Open Tue–Sun, 10am–8pm · 14 Willow Lane</div>
+    <div>Lark &amp; Folio · books with a pulse</div>
+  </footer>
+
+  <script>
+    const categories = [
+      { id: "self-help", name: "Self Help", icon: "🌱", color: "#e8f0e4", accent: "#3d5a45", blurb: "Practical companionship for messy, hopeful humans." },
+      { id: "history", name: "History", icon: "⌛", color: "#f3e6d4", accent: "#8a4b12", blurb: "Empires, kitchens, revolutions, and the footnotes that matter." },
+      { id: "fiction", name: "Literary Fiction", icon: "📖", color: "#f7e8ee", accent: "#8a3d5b", blurb: "Sentences that linger after the lamp is out." },
+      { id: "mystery", name: "Mystery & Crime", icon: "🔎", color: "#e8eaf4", accent: "#31406b", blurb: "Locked rooms, rain-slick alleys, and last-page gasps." },
+      { id: "science", name: "Science", icon: "🔭", color: "#e4f1f4", accent: "#1f5f6b", blurb: "Atoms, oceans, brains, and the curiosity between them." },
+      { id: "biography", name: "Biography", icon: "🕯", color: "#f6ebdc", accent: "#7a4a1f", blurb: "Lives told with enough texture to feel like company." },
+      { id: "poetry", name: "Poetry", icon: "🌙", color: "#eee8f6", accent: "#5a3d7a", blurb: "Short lines, long aftertaste." },
+      { id: "children", name: "Children & YA", icon: "🪁", color: "#f8efd6", accent: "#b36b12", blurb: "First dragons, first crushes, first brave questions." },
+      { id: "business", name: "Business", icon: "📌", color: "#e9efe8", accent: "#2f5a3c", blurb: "Craft, capital, and how rooms of people actually work." },
+      { id: "travel", name: "Travel", icon: "🧳", color: "#e7f3ee", accent: "#1f6b55", blurb: "Tickets, kitchens abroad, and maps you can almost smell." }
+    ];
+
+    const books = {
+      "self-help": [
+        { title: "Tiny Mercies, Daily", author: "Nia Calder", published: "12 Mar 2021", pages: 248, isbn: "978-1-4028-9462-6", publisher: "Harbor Press", price: "₹399", summary: "A gentle system for keeping promises to yourself without becoming a drill sergeant." },
+        { title: "The Unhurried Mind", author: "Omar Voss", published: "4 Jun 2019", pages: 312, isbn: "978-0-306-40615-7", publisher: "Quiet North", price: "₹449", summary: "Attention as a craft. Less productivity theater, more presence." },
+        { title: "Boundaries Like Riverbanks", author: "Leah Okonkwo", published: "19 Jan 2022", pages: 276, isbn: "978-1-56619-909-4", publisher: "Cedar & Salt", price: "₹425", summary: "How to say no without disappearing from the people you love." },
+        { title: "Repairing the Ordinary", author: "Felix March", published: "8 Sep 2018", pages: 204, isbn: "978-0-141-03614-1", publisher: "Kiln Books", price: "₹349", summary: "Rituals for kitchens, inboxes, and the grief that hides in both." },
+        { title: "Courage in Small Coins", author: "Priya Raman", published: "2 Feb 2024", pages: 268, isbn: "978-3-16-148410-0", publisher: "Lumen House", price: "₹475", summary: "Bravery as a series of affordable, repeatable acts." },
+        { title: "Sleep, Then Begin", author: "Jonah Pell", published: "11 Nov 2020", pages: 190, isbn: "978-0-545-01022-1", publisher: "Nightjar", price: "₹329", summary: "A practical argument that rest is the first strategy." },
+        { title: "The Kind Ambition", author: "Marta Solis", published: "27 Jul 2023", pages: 334, isbn: "978-1-86197-876-9", publisher: "Grove & Wick", price: "₹499", summary: "Wanting more without treating yourself like a factory." },
+        { title: "Letters to a Future Self", author: "Eden Park", published: "15 May 2017", pages: 221, isbn: "978-0-670-82162-4", publisher: "Paper Lantern", price: "₹375", summary: "Prompts and essays for writing your way into a life you can inhabit." }
+      ],
+      history: [
+        { title: "Salt Roads of the Inland Sea", author: "Helena Ruiz", published: "3 Apr 2016", pages: 418, isbn: "978-0-7432-7356-5", publisher: "Cartograph", price: "₹599", summary: "Trade, rumor, and how a coastline taught empires to listen." },
+        { title: "A Kitchen History of Revolutions", author: "Thomas Adeyemi", published: "22 Oct 2020", pages: 352, isbn: "978-0-375-50420-4", publisher: "Hearth Archive", price: "₹549", summary: "Bread lines, banquets, and the politics of who eats first." },
+        { title: "The Quiet Years, 1919–1924", author: "Iris Feldman", published: "9 Jan 2014", pages: 480, isbn: "978-0-06-112241-5", publisher: "Ashlar", price: "₹625", summary: "An aftermath studied through letters, ledgers, and weather." },
+        { title: "Maps That Lied Politely", author: "Kenji Mori", published: "18 Aug 2021", pages: 296, isbn: "978-1-250-30795-8", publisher: "True North", price: "₹475", summary: "Cartography as persuasion from the Age of Sail to satellite." },
+        { title: "Copper, Cloth, and Claim", author: "Amara Singh", published: "6 Mar 2018", pages: 390, isbn: "978-0-307-26543-2", publisher: "Riverstone", price: "₹565", summary: "Material culture of a century of South Asian trade." },
+        { title: "Night Trains of the Continent", author: "Lukas Weber", published: "30 Nov 2019", pages: 274, isbn: "978-0-141-01720-4", publisher: "Platform 9", price: "₹429", summary: "Sleepers, borders, and the last century of European night travel." },
+        { title: "The Librarian of Alexandria Street", author: "Nadia El-Sayed", published: "14 Feb 2022", pages: 310, isbn: "978-0-8050-9366-7", publisher: "Folio Civic", price: "₹499", summary: "A city archive that survived three governments and one flood." },
+        { title: "Ordinary Crowns", author: "Patrick Glenn", published: "25 Jun 2011", pages: 444, isbn: "978-0-679-64295-4", publisher: "Regal Dust", price: "₹589", summary: "Monarchy as paperwork, rumor, and public theater." }
+      ],
+      fiction: [
+        { title: "The Last Honest Window", author: "Clara Venn", published: "5 May 2019", pages: 328, isbn: "978-0-312-42788-7", publisher: "Lark Editions", price: "₹459", summary: "A translator inherits a house that only tells the truth at dusk." },
+        { title: "River Without a Name", author: "Soren Hale", published: "12 Sep 2021", pages: 356, isbn: "978-0-374-15846-0", publisher: "Millrace", price: "₹499", summary: "Two siblings row a drought into a country that forgot water." },
+        { title: "Company for Ghosts", author: "Yelena Kost", published: "1 Dec 2017", pages: 272, isbn: "978-1-250-16118-5", publisher: "Gable", price: "₹399", summary: "A boarding house novel with too many teacups and one missing tenant." },
+        { title: "The Orchard Agreement", author: "Mateo Alvarez", published: "18 Mar 2023", pages: 401, isbn: "978-0-525-55947-4", publisher: "Green Spine", price: "₹529", summary: "Love, land, and a contract written in peach-tree shade." },
+        { title: "Paper Birds, Brass Keys", author: "Juniper Cole", published: "7 Jul 2015", pages: 288, isbn: "978-0-06-245771-4", publisher: "Attic Press", price: "₹375", summary: "A locksmith and a forger share a winter and a dangerous skill." },
+        { title: "When the Harbor Forgot Us", author: "Rhea Nair", published: "29 Oct 2020", pages: 340, isbn: "978-0-385-53702-5", publisher: "Tidepool", price: "₹465", summary: "A port city novel about work, weather, and a vanished ferry." },
+        { title: "A Slightly Crooked Saint", author: "Owen Brisk", published: "16 Jan 2018", pages: 264, isbn: "978-1-4767-5556-4", publisher: "Chapel Lane", price: "₹389", summary: "A comic novel about faith, plumbing, and a very public miracle." },
+        { title: "The Inventory of Light", author: "Elise Moreau", published: "3 Aug 2024", pages: 318, isbn: "978-1-9848-2141-6", publisher: "Glasshouse", price: "₹545", summary: "An archivist catalogs every hour of sunlight in a doomed museum." }
+      ],
+      mystery: [
+        { title: "The Ink-Stained Alibi", author: "M. J. Thorn", published: "11 Feb 2019", pages: 336, isbn: "978-0-316-12918-3", publisher: "Noir & Co.", price: "₹429", summary: "A typesetter is framed by a sentence that was never meant to print." },
+        { title: "Fog Over Ledger Street", author: "Harriet Quinn", published: "23 Sep 2016", pages: 368, isbn: "978-0-307-58836-4", publisher: "Gaslight", price: "₹449", summary: "Accountants, arsenic, and a fog that arrives on schedule." },
+        { title: "Nine Keys, One River", author: "Daniel Cho", published: "8 Apr 2022", pages: 352, isbn: "978-0-525-54187-5", publisher: "Lockhouse", price: "₹499", summary: "A detective inherits nine keys and a drowning that isn't finished." },
+        { title: "The Quietest Gun", author: "Vera Lang", published: "19 Nov 2014", pages: 301, isbn: "978-0-06-207348-8", publisher: "Black Ribbon", price: "₹399", summary: "A retired marksman is asked to listen, not shoot." },
+        { title: "Catalog of Missing Afternoons", author: "Ibrahim Sane", published: "2 Jun 2021", pages: 284, isbn: "978-1-250-23221-2", publisher: "Hourglass", price: "₹415", summary: "People vanish between 3 and 4 p.m. The library knows why." },
+        { title: "Murder, Gently Bound", author: "Celia Frost", published: "14 Jan 2018", pages: 320, isbn: "978-0-141-04308-1", publisher: "Gilt Edge", price: "₹389", summary: "A bookbinder hides a confession in the endpapers." },
+        { title: "The Third Witness Was Weather", author: "Paul Riegel", published: "27 Jul 2020", pages: 344, isbn: "978-0-385-54302-6", publisher: "Stormglass", price: "₹465", summary: "A coastal trial where the tide keeps changing the evidence." },
+        { title: "Do Not Open Until Winter", author: "Anika Bose", published: "5 Dec 2023", pages: 372, isbn: "978-1-9848-7577-8", publisher: "Sealed Letter", price: "₹529", summary: "A sealed envelope, a frozen lake, and a family that keeps score." }
+      ],
+      science: [
+        { title: "The Patient Atom", author: "Dr. Lila Chen", published: "10 Mar 2018", pages: 288, isbn: "978-0-393-35625-0", publisher: "Ion House", price: "₹499", summary: "Quantum ideas told with kitchen-table patience." },
+        { title: "Oceans Remember", author: "Hugo Bennett", published: "21 Aug 2020", pages: 342, isbn: "978-0-06-269406-5", publisher: "Blue Volume", price: "₹545", summary: "Currents, climate, and the long memory of salt water." },
+        { title: "A Field Guide to Brains", author: "Sofia Rahman", published: "4 Jan 2022", pages: 310, isbn: "978-0-525-55903-0", publisher: "Synapse", price: "₹529", summary: "Neuroscience without the swagger, with plenty of wonder." },
+        { title: "Stars We Borrowed", author: "Eli Navarro", published: "16 Oct 2015", pages: 256, isbn: "978-0-307-88789-4", publisher: "Orion Press", price: "₹399", summary: "How astronomy hitchhiked on navigation, myth, and math." },
+        { title: "The Compost Universe", author: "Greta Holm", published: "9 May 2019", pages: 274, isbn: "978-1-250-11689-5", publisher: "Mycelium", price: "₹375", summary: "Decay as an engine: microbes, forests, and us." },
+        { title: "Listening to Ice", author: "Jonas Falk", published: "28 Feb 2021", pages: 298, isbn: "978-0-374-27761-1", publisher: "Caldera", price: "₹465", summary: "Glaciology as a conversation with a disappearing archive." },
+        { title: "Why Birds Know the Wind", author: "Mei Zhao", published: "13 Jul 2017", pages: 240, isbn: "978-0-141-98239-0", publisher: "Feather & Fact", price: "₹349", summary: "Migration science for people who still look up." },
+        { title: "The Clock Inside Cells", author: "Andre Silva", published: "1 Nov 2023", pages: 326, isbn: "978-1-9848-1410-4", publisher: "Circadian", price: "₹559", summary: "Circadian biology and the politics of sleep." }
+      ],
+      biography: [
+        { title: "She Kept the Press Running", author: "Diana Holt", published: "17 Apr 2016", pages: 384, isbn: "978-0-679-76400-7", publisher: "Typecase", price: "₹525", summary: "The life of a wartime printer who smuggled poems in invoices." },
+        { title: "A Cartographer's Daughter", author: "Samuel Ike", published: "8 Sep 2019", pages: 352, isbn: "978-0-375-42113-6", publisher: "Latitude", price: "₹499", summary: "Growing up among unfinished maps and finished arguments." },
+        { title: "The Man Who Tuned Pianos in Exile", author: "Rosa Klein", published: "22 Jan 2013", pages: 296, isbn: "978-0-06-093546-7", publisher: "Aria", price: "₹389", summary: "Music, borders, and a craft that could cross both." },
+        { title: "Notes from a Working Chef", author: "Paolo Ricci", published: "3 Jun 2021", pages: 268, isbn: "978-0-525-65677-7", publisher: "Copper Pan", price: "₹429", summary: "A life measured in services, burns, and loyalty." },
+        { title: "The Botanist of Closed Cities", author: "Hana Yoshida", published: "19 Oct 2018", pages: 320, isbn: "978-0-393-35610-6", publisher: "Herbarium", price: "₹475", summary: "Plants that survived embargoes, and the woman who named them." },
+        { title: "My Father's Second Language", author: "Amina Dar", published: "11 Mar 2020", pages: 244, isbn: "978-1-250-20455-4", publisher: "Threshold", price: "₹365", summary: "Immigration as a love story told in two grammars." },
+        { title: "The Last Lighthouse Keeper", author: "Gwen Harris", published: "27 Dec 2014", pages: 278, isbn: "978-0-141-04316-6", publisher: "Beacon", price: "₹349", summary: "Solitude, storms, and the automation of a vocation." },
+        { title: "Inventor of the Almost", author: "Leo Hart", published: "5 Aug 2022", pages: 360, isbn: "978-1-9848-2103-4", publisher: "Patent Dust", price: "₹545", summary: "A portrait of a tinkerer whose failures fed a city." }
+      ],
+      poetry: [
+        { title: "Rain That Knows Our Names", author: "Lina Ortiz", published: "14 Mar 2020", pages: 96, isbn: "978-1-55597-832-7", publisher: "Copper Canyon-ish", price: "₹299", summary: "Lyric poems about weather as a form of memory." },
+        { title: "A Pocket of Sparrows", author: "Ben Idris", published: "2 Sep 2018", pages: 112, isbn: "978-1-55597-690-3", publisher: "Fieldnote", price: "₹275", summary: "Short, bright poems that fit in a coat and a grief." },
+        { title: "Instructions for Leaving Quietly", author: "Mira Shah", published: "21 Jan 2022", pages: 88, isbn: "978-1-64445-070-3", publisher: "Gray Thread", price: "₹259", summary: "Farewells, kitchens, and the math of missing someone." },
+        { title: "The Body as a Public Library", author: "Theo Crane", published: "9 Jul 2016", pages: 104, isbn: "978-0-8112-2629-5", publisher: "New Directions-ish", price: "₹289", summary: "Desire, archives, and the politics of being read." },
+        { title: "Midnight Is a Working Hour", author: "Asha Menon", published: "30 Nov 2021", pages: 120, isbn: "978-1-64445-051-2", publisher: "Night Shift", price: "₹310", summary: "Poems from buses, wards, and other rooms that never close." },
+        { title: "Orchard Syntax", author: "Callum Reed", published: "16 May 2019", pages: 92, isbn: "978-1-55597-848-8", publisher: "Pippins", price: "₹249", summary: "Rural language, grafted images, fruit as argument." },
+        { title: "We Practiced Being Brave", author: "Noor Haddad", published: "4 Feb 2024", pages: 108, isbn: "978-1-64445-221-9", publisher: "Lantern Verse", price: "₹329", summary: "A sequence about childhood, checkpoints, and laughter." },
+        { title: "Small Gods of the Kitchen", author: "Elena Rossi", published: "12 Oct 2015", pages: 80, isbn: "978-0-8112-2455-0", publisher: "Flour & Line", price: "₹239", summary: "Hymns to yeast, knives, and the people who wait for dinner." }
+      ],
+      children: [
+        { title: "The Fox Who Collected Maps", author: "Penny Adler", published: "8 Jun 2019", pages: 48, isbn: "978-1-5362-0441-4", publisher: "Candlelight Kids", price: "₹299", summary: "A picture book about getting lost on purpose. Ages 4–8." },
+        { title: "Captain of the Rain Barrel", author: "Omar Diaz", published: "15 Mar 2021", pages: 160, isbn: "978-0-7636-9323-7", publisher: "Puddle Press", price: "₹349", summary: "A middle-grade adventure in a backyard navy. Ages 8–12." },
+        { title: "My Sister the Constellation", author: "Lila Park", published: "22 Sep 2020", pages: 32, isbn: "978-1-5362-1204-4", publisher: "Nightlight", price: "₹275", summary: "A bedtime story about grief that still leaves the window open. Ages 5–9." },
+        { title: "The Homework Dragon", author: "Chris Bell", published: "3 Jan 2018", pages: 128, isbn: "978-0-545-94482-7", publisher: "Spark Notes Kids", price: "₹325", summary: "School fantasy with fire, fractions, and friendship. Ages 7–11." },
+        { title: "Yasmin and the Midnight Market", author: "Farah Noor", published: "19 Nov 2022", pages: 208, isbn: "978-1-5362-2011-7", publisher: "Lantern YA-adjacent", price: "₹399", summary: "A girl trades stories for spices under a city of lamps. Ages 10–14." },
+        { title: "How to Build a Cloud", author: "Toby Green", published: "7 May 2016", pages: 40, isbn: "978-0-7636-5594-5", publisher: "Skyhook", price: "₹259", summary: "Science-tinged wonder for weather watchers. Ages 4–7." },
+        { title: "The Almost Ordinary Witch", author: "Sienna Holt", published: "28 Jul 2023", pages: 272, isbn: "978-1-338-74532-0", publisher: "Broom Closet", price: "₹429", summary: "YA: magic school if the real lesson is consent and courage." },
+        { title: "Letters from the Treehouse", author: "Noah Kim", published: "11 Feb 2017", pages: 144, isbn: "978-0-375-86601-2", publisher: "Knotwood", price: "₹315", summary: "Pen pals, summer, and a tree that keeps secrets. Ages 8–12." }
+      ],
+      business: [
+        { title: "Shops That Listen", author: "Helen Cho", published: "6 Apr 2020", pages: 256, isbn: "978-1-4767-4348-6", publisher: "Counter Press", price: "₹449", summary: "Retail as hospitality, not extraction." },
+        { title: "The Slow Company", author: "Marcus Bell", published: "18 Sep 2018", pages: 288, isbn: "978-0-307-88790-0", publisher: "Long Game", price: "₹475", summary: "Building firms that outlast a quarter." },
+        { title: "Meetings, Briefly", author: "Ivy Laurent", published: "2 Feb 2022", pages: 192, isbn: "978-1-250-23075-1", publisher: "Agenda", price: "₹329", summary: "How to gather people without stealing their afternoon." },
+        { title: "Craft Before Scale", author: "Ravi Mehta", published: "21 Nov 2019", pages: 304, isbn: "978-0-399-59252-2", publisher: "Workbench", price: "₹499", summary: "Quality as a business model, not a mood." },
+        { title: "The Honest Pitch", author: "Sara Bloom", published: "14 Jun 2017", pages: 220, isbn: "978-0-06-227320-8", publisher: "Plainspoken", price: "₹365", summary: "Persuasion without the carnival." },
+        { title: "Ledgers & Luck", author: "Peter Okoye", published: "9 Jan 2021", pages: 272, isbn: "978-0-525-54221-6", publisher: "Float", price: "₹429", summary: "Cash flow stories from markets that never slept." },
+        { title: "Hire for Curiosity", author: "Dana Wolff", published: "30 Aug 2023", pages: 248, isbn: "978-1-9848-1411-1", publisher: "Bench", price: "₹459", summary: "Teams that learn faster than they brand." },
+        { title: "A Manual for Closing Time", author: "Jules Hart", published: "5 May 2015", pages: 210, isbn: "978-0-141-97765-2", publisher: "Last Light", price: "₹339", summary: "Endings, exits, and leaving a shop better than you found it." }
+      ],
+      travel: [
+        { title: "The Atlas of Ordinary Days", author: "Camille Droste", published: "12 May 2021", pages: 336, isbn: "978-0-525-65621-0", publisher: "Wayfare", price: "₹499", summary: "Bus stations, bakeries, and the holiness of getting there." },
+        { title: "Trains That Smell Like Rain", author: "Hiro Tanaka", published: "3 Oct 2018", pages: 280, isbn: "978-0-307-58837-1", publisher: "Sleeper", price: "₹429", summary: "A year of night trains from Osaka to Lisbon, almost." },
+        { title: "Markets Before Noon", author: "Ines Duarte", published: "19 Mar 2020", pages: 248, isbn: "978-1-250-11742-7", publisher: "Stall", price: "₹399", summary: "Eating your way through cities that wake early." },
+        { title: "A Borrowed Bicycle in Hanoi", author: "James Kerr", published: "7 Jul 2016", pages: 264, isbn: "978-0-8021-2605-4", publisher: "Two Wheels", price: "₹375", summary: "Getting lost as a method, not a mishap." },
+        { title: "Desert Hotels with One Lamp", author: "Leila Hassan", published: "22 Jan 2022", pages: 302, isbn: "978-0-525-54110-3", publisher: "Innkeep", price: "₹465", summary: "Hospitality on the edges of maps." },
+        { title: "The Ferry Timetable", author: "Nils Berg", published: "16 Nov 2019", pages: 220, isbn: "978-0-141-98721-3", publisher: "Harbor Line", price: "₹349", summary: "Islands, delays, and the people who wait well." },
+        { title: "Walking the Spice Latitude", author: "Ananya Rao", published: "28 Aug 2023", pages: 318, isbn: "978-1-9848-2599-5", publisher: "Peppercorn", price: "₹529", summary: "A slow route from kitchens in Kochi to cafés in Zanzibar." },
+        { title: "Passport Full of Library Stamps", author: "Owen Blake", published: "4 Feb 2014", pages: 236, isbn: "978-0-307-27787-9", publisher: "Reading Room", price: "₹329", summary: "Traveling by public libraries, one quiet city at a time." }
+      ]
+    };
+
+    const grid = document.getElementById("categoryGrid");
+    const bookGrid = document.getElementById("bookGrid");
+
+    function renderCategories() {
+      grid.innerHTML = categories.map((c) => `
+        <article class="cat-card" data-id="${c.id}" style="--accent:${c.accent}" role="button" tabindex="0" aria-label="${c.name}">
+          <div class="bubbles"></div>
+          <div class="cat-icon" style="background:${c.color}">${c.icon}</div>
+          <h3>${c.name}</h3>
+          <p>${c.blurb}</p>
+          <div class="count">${books[c.id].length} titles on the shelf</div>
+        </article>
+      `).join("");
+    }
+
+    function spawnBubbles(card) {
+      const layer = card.querySelector(".bubbles");
+      const colors = ["rgba(196,92,38,0.55)", "rgba(212,160,23,0.55)", "rgba(111,143,106,0.55)", "rgba(255,255,255,0.8)"];
+      for (let i = 0; i < 14; i++) {
+        const b = document.createElement("span");
+        b.className = "bubble";
+        const size = 10 + Math.random() * 22;
+        b.style.width = size + "px";
+        b.style.height = size + "px";
+        b.style.left = Math.random() * 86 + 4 + "%";
+        b.style.bottom = Math.random() * 30 + "px";
+        b.style.setProperty("--b", colors[i % colors.length]);
+        b.style.animationDelay = (Math.random() * 180) + "ms";
+        layer.appendChild(b);
+        setTimeout(() => b.remove(), 1000);
+      }
+    }
+
+    function showBooks(id) {
+      const cat = categories.find((c) => c.id === id);
+      document.getElementById("catPill").textContent = cat.name;
+      document.getElementById("catTitle").textContent = cat.name;
+      document.getElementById("catBlurb").textContent = cat.blurb;
+      bookGrid.innerHTML = books[id].map((b) => `
+        <article class="book">
+          <div class="cover" style="background: linear-gradient(165deg, ${cat.accent}, #1c1712);">${b.title}</div>
+          <div class="book-body">
+            <h3>${b.title}</h3>
+            <p class="meta">${b.author}</p>
+            <div class="facts">
+              <div>Published ${b.published}</div>
+              <div>${b.pages} pages · ${b.publisher}</div>
+              <div>ISBN ${b.isbn}</div>
+              <div>${b.summary}</div>
+            </div>
+            <div class="price">${b.price}</div>
+          </div>
+        </article>
+      `).join("");
+      document.body.classList.add("show-books");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function activateCard(card) {
+      card.classList.remove("wobble");
+      void card.offsetWidth;
+      card.classList.add("wobble");
+      spawnBubbles(card);
+      setTimeout(() => showBooks(card.dataset.id), 520);
+    }
+
+    grid.addEventListener("click", (e) => {
+      const card = e.target.closest(".cat-card");
+      if (!card) return;
+      activateCard(card);
+    });
+
+    grid.addEventListener("keydown", (e) => {
+      const card = e.target.closest(".cat-card");
+      if (!card || (e.key !== "Enter" && e.key !== " ")) return;
+      e.preventDefault();
+      activateCard(card);
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      document.body.classList.remove("show-books");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("homeLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.body.classList.remove("show-books");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    renderCategories();
+  </script>
+</body>
+</html>
